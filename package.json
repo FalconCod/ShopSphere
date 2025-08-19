@@ -1,0 +1,27 @@
+{
+  "name": "ecommerce-platform",
+  "version": "1.0.0",
+  "description": "Full-stack e-commerce platform with microservices architecture",
+  "main": "index.js",
+  "scripts": {
+    "start": "docker-compose up --build",
+    "dev": "docker-compose up",
+    "stop": "docker-compose down",
+    "clean": "docker-compose down -v --rmi all",
+    "logs": "docker-compose logs -f"
+  },
+  "keywords": [
+    "ecommerce",
+    "microservices",
+    "react",
+    "nodejs",
+    "mongodb",
+    "docker"
+  ],
+  "author": "Ecommerce Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/ecommerce-platform.git"
+  }
+}

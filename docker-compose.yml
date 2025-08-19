@@ -1,0 +1,82 @@
+services:
+  # API Gateway
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - JWT_SECRET=ECOMMERCEGROUP
+    depends_on:
+      - auth-service
+      - products-service
+      - cart-service
+      - orders-service
+    networks:
+      - ecommerce-network
+
+  # Auth Service
+  auth-service:
+    build: ./services/auth-service
+    ports:
+      - "5001:5001"
+    environment:
+      - MONGODB_URI=mongodb+srv://pranaycursor:pranay@cluster0.8ir3qb9.mongodb.net/auth-db?retryWrites=true&w=majority&appName=Cluster0
+      - JWT_SECRET=ECOMMERCEGROUP
+      - PORT=5001
+    networks:
+      - ecommerce-network
+
+  # Products Service
+  products-service:
+    build: ./services/products-service
+    ports:
+      - "5002:5002"
+    environment:
+      - MONGODB_URI=mongodb+srv://pranaycursor:pranay@cluster0.8ir3qb9.mongodb.net/products-db?retryWrites=true&w=majority&appName=Cluster0
+      - JWT_SECRET=ECOMMERCEGROUP
+      - PORT=5002
+    networks:
+      - ecommerce-network
+
+  # Cart Service
+  cart-service:
+    build: ./services/cart-service
+    ports:
+      - "5003:5003"
+    environment:
+      - MONGODB_URI=mongodb+srv://pranaycursor:pranay@cluster0.8ir3qb9.mongodb.net/cart-db?retryWrites=true&w=majority&appName=Cluster0
+      - PORT=5003
+    networks:
+      - ecommerce-network
+
+  # Orders Service
+  orders-service:
+    build: ./services/orders-service
+    ports:
+      - "5004:5004"
+    environment:
+      - MONGODB_URI=mongodb+srv://pranaycursor:pranay@cluster0.8ir3qb9.mongodb.net/orders-db?retryWrites=true&w=majority&appName=Cluster0
+      - RAZORPAY_KEY_ID=YOUR_KEY_ID
+      - RAZORPAY_KEY_SECRET=YOUR_KEY_SECRET
+      - PORT=5004
+    networks:
+      - ecommerce-network
+
+  # Frontend
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - api-gateway
+    networks:
+      - ecommerce-network
+
+networks:
+  ecommerce-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:

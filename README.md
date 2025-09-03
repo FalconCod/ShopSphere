@@ -1,103 +1,32 @@
-# E-commerce Platform with Microservices
+# ShopSphere - E-Commerce Platform
 
-This project is a full-stack e-commerce electronics marketplace built with a microservices architecture using React, Node.js, MongoDB, and Docker.
+A modern, full-stack e-commerce platform built with microservices architecture using React, Node.js, Express, MongoDB, and Docker. This platform provides a complete online shopping experience with admin management capabilities.
 
-## Features
+## 🚀 Features
 
-* Microservices for Products, Cart, Users, and Orders.
-* Secure authentication using JSON Web Tokens (JWT).
-* Admin dashboard for product management.
-* Containerized services using Docker for scalability and isolation.
+### Customer Features
+- **User Authentication**: Secure registration and login with JWT tokens
+- **Product Browsing**: Browse electronics catalog with search and filtering
+- **Product Details**: Detailed product views with descriptions, pricing, and specifications
+- **Shopping Cart**: Add, remove, and modify items in cart
+- **Secure Checkout**: Complete purchase flow with address management
+- **Order History**: View past orders and order status
+- **Responsive Design**: Mobile-friendly interface
 
-## Prerequisites
+### Admin Features
+- **Admin Dashboard**: Protected admin panel for store management
+- **Product Management**: Add, edit, and delete products from catalog
+- **Order Management**: View and manage customer orders
+- **User Management**: Monitor user accounts and activities
 
-* Docker
-* Docker Compose
+### Technical Features
+- **Microservices Architecture**: Scalable, independent services
+- **API Gateway**: Centralized request routing and management
+- **Docker Support**: Containerized deployment for consistency
+- **MongoDB Integration**: NoSQL database for flexible data storage
+- **Real-time Updates**: Live cart and order status updates
 
-## How to Run
-
-1.  Ensure Docker is running on your machine.
-2.  Open your terminal in the project root directory.
-3.  Make the run script executable:
-    ```bash
-    chmod +x run-app.sh
-    ```
-4.  Execute the script to start the application:
-    ```bash
-    ./run-app.sh
-    ```
-5.  Once all services are running:
-    * The **website** will be available at `http://localhost:3000`.
-    * The **API Gateway** will be available at `http://localhost:5000`.
-
-## Services
-
-| Service          | Port (Container) | URL via Gateway            |
-| ---------------- | ---------------- | -------------------------- |
-| Frontend         | 80               | `http://localhost:3000`    |
-| API Gateway      | 5000             | `http://localhost:5000`    |
-| Auth Service     | 5001             | `/api/auth`                |
-| Products Service | 5002             | `/api/products`            |
-| Cart Service     | 5003             | `/api/cart`                |
-| Orders Service   | 5004             | `/api/orders`              |
-
-## Customer-Facing Features
-
-### User Accounts
-Customers can register for a new account or log in to an existing one. The system uses secure JWT authentication.
-
-### Browse Products
-Users can view all available electronics on a dedicated products page.
-
-### Product Details
-They can click on any product to see a detailed view with its description, price, and category.
-
-### Shopping Cart
-Customers can add items to their shopping cart, view the cart's contents, and adjust the quantity of items or remove them.
-
-### Secure Checkout
-A full checkout process allows users to enter their shipping address and complete the purchase using the integrated Razorpay payment gateway.
-
-### Order History
-Logged-in users can view a history of their past orders.
-
-## Admin-Specific Features
-
-### Admin Dashboard
-A special, protected dashboard is available only to users with an "admin" role.
-
-### Product Management
-From the dashboard, an admin can:
-- Add new products to the store.
-- Edit the details of existing products.
-- Delete products from the store.
-
-## Technical & Architectural Features
-
-### Microservices Architecture
-The entire backend is broken down into independent services for authentication, products, cart, and orders, which makes the system scalable and easier to maintain.
-
-### Containerization
-The entire application (all backend services and the frontend) is containerized with Docker, allowing it to run consistently in any environment.
-
-### API Gateway
-A single, managed entry point handles all incoming requests and routes them to the correct service, which enhances security and simplifies the frontend logic.
-
-## Demo Credentials
-
-For testing purposes, you can use these demo accounts:
-
-**Admin Account:**
-- Email: admin@example.com
-- Password: admin123
-
-**Regular User Account:**
-- Email: user@example.com
-- Password: user123
-
-*Note: These accounts will be automatically created when you first register with these credentials.*
-
-## Architecture Overview
+## 🏗️ Architecture
 
 ```
 Frontend (React) → API Gateway → Microservices → MongoDB
@@ -105,105 +34,325 @@ Frontend (React) → API Gateway → Microservices → MongoDB
 Port 3000        Port 5000     Ports 5001-5004
 ```
 
-### API Endpoints
+### Services Overview
 
-#### Authentication Service (`/api/auth`)
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login user
+| Service          | Port | Description                    | Database    |
+|------------------|------|--------------------------------|-------------|
+| Frontend         | 3000 | React application              | -           |
+| API Gateway      | 5000 | Request routing & authentication| -           |
+| Auth Service     | 5001 | User authentication & management| auth-db     |
+| Products Service | 5002 | Product catalog management     | products-db |
+| Cart Service     | 5003 | Shopping cart operations       | cart-db     |
+| Orders Service   | 5004 | Order processing & management  | orders-db   |
+
+## 📁 Project Structure
+
+```
+emart/
+├── api-gateway/              # API Gateway service
+│   ├── src/
+│   │   └── index.js         # Gateway routing logic
+│   ├── package.json
+│   └── Dockerfile
+├── services/
+│   ├── auth-service/        # Authentication service
+│   │   ├── src/
+│   │   │   ├── index.js     # Auth endpoints
+│   │   │   └── models/User.js
+│   │   └── package.json
+│   ├── products-service/    # Products management
+│   │   ├── src/
+│   │   │   ├── index.js     # Product endpoints
+│   │   │   ├── models/Product.js
+│   │   │   └── seedProducts.js
+│   │   └── package.json
+│   ├── cart-service/        # Shopping cart service
+│   │   ├── src/
+│   │   │   ├── index.js     # Cart endpoints
+│   │   │   └── models/Cart.js
+│   │   └── package.json
+│   └── orders-service/      # Order management
+│       ├── src/
+│       │   ├── index.js     # Order endpoints
+│       │   └── models/Order.js
+│       └── package.json
+├── frontend/                # React frontend
+│   ├── src/
+│   │   ├── components/      # Reusable components
+│   │   │   ├── Navbar.js
+│   │   │   ├── ProductCard.js
+│   │   │   └── ProtectedRoute.js
+│   │   ├── context/         # React context providers
+│   │   │   ├── AuthContext.js
+│   │   │   └── CartContext.js
+│   │   ├── pages/           # Application pages
+│   │   │   ├── HomePage.js
+│   │   │   ├── ProductsPage.js
+│   │   │   ├── CartPage.js
+│   │   │   ├── CheckoutPage.js
+│   │   │   ├── OrdersPage.js
+│   │   │   ├── AdminDashboard.js
+│   │   │   ├── LoginPage.js
+│   │   │   └── RegisterPage.js
+│   │   ├── App.js
+│   │   └── index.js
+│   └── package.json
+├── docker-compose.yml       # Docker orchestration
+├── package.json            # Root dependencies
+└── README.md               # This file
+```
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB (or MongoDB Atlas account)
+- Docker (optional, for containerized deployment)
+
+### Option 1: Quick Start Script (Recommended)
+```bash
+chmod +x start-emart-quick.sh
+./start-emart-quick.sh
+```
+
+### Option 2: Docker Compose
+```bash
+docker-compose up --build
+```
+
+### Option 3: Manual Setup
+
+#### 1. Install Dependencies
+```bash
+# Install root dependencies
+npm install
+
+# Install API Gateway dependencies
+cd api-gateway
+npm install
+cd ..
+
+# Install service dependencies
+cd services/auth-service && npm install && cd ../..
+cd services/products-service && npm install && cd ../..
+cd services/cart-service && npm install && cd ../..
+cd services/orders-service && npm install && cd ../..
+
+# Install frontend dependencies
+cd frontend && npm install && cd ..
+```
+
+#### 2. Environment Setup
+Create `.env` files in each service directory with appropriate environment variables:
+
+```env
+# Example .env for services
+MONGODB_URI=mongodb://localhost:27017/ecommerce
+JWT_SECRET=your-jwt-secret-key
+PORT=5001
+```
+
+#### 3. Start Services
+```bash
+# Start all services using the development script
+chmod +x run-dev.sh
+./run-dev.sh
+```
+
+**Or start services individually:**
+
+```bash
+# Terminal 1 - API Gateway
+cd api-gateway && npm start
+
+# Terminal 2 - Auth Service
+cd services/auth-service && npm start
+
+# Terminal 3 - Products Service
+cd services/products-service && npm start
+
+# Terminal 4 - Cart Service
+cd services/cart-service && npm start
+
+# Terminal 5 - Orders Service
+cd services/orders-service && npm start
+
+# Terminal 6 - Frontend
+cd frontend && npm start
+```
+
+## 🌐 Access Points
+
+After starting the services:
+
+- **Frontend Application**: http://localhost:3000
+- **API Gateway**: http://localhost:5000
+- **Individual Services**: http://localhost:5001-5004
+
+## 🔑 API Endpoints
+
+### Authentication (`/api/auth`)
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - User login
 - `GET /api/auth/me` - Get current user info
 
-#### Products Service (`/api/products`)
+### Products (`/api/products`)
 - `GET /api/products` - Get all products
 - `GET /api/products/:id` - Get single product
 - `POST /api/products` - Add product (Admin only)
 - `PUT /api/products/:id` - Update product (Admin only)
 - `DELETE /api/products/:id` - Delete product (Admin only)
 
-#### Cart Service (`/api/cart`)
+### Cart (`/api/cart`)
 - `GET /api/cart/:userId` - Get user's cart
 - `POST /api/cart/:userId/add` - Add item to cart
 - `POST /api/cart/:userId/remove` - Remove item from cart
 - `POST /api/cart/:userId/update` - Update item quantity
 
-#### Orders Service (`/api/orders`)
+### Orders (`/api/orders`)
 - `POST /api/orders/create` - Create new order
-- `POST /api/orders/verify-payment` - Verify Razorpay payment
 - `GET /api/orders/:userId` - Get user's orders
+- `GET /api/orders/admin/all` - Get all orders (Admin only)
 
-## Development
+## 👥 Test Credentials
 
-### Project Structure
+### Admin Account
+- **Email**: admin@example.com
+- **Password**: admin123
+
+### Regular User Account
+- **Email**: user@example.com
+- **Password**: user123
+
+*Note: These accounts are created automatically when you first register with these credentials.*
+
+## 🛠️ Development Commands
+
+### Check Service Status
+```bash
+chmod +x check-status.sh
+./check-status.sh
 ```
-/ecommerce-platform
-├── api-gateway/          # API Gateway service
-├── services/
-│   ├── auth-service/     # Authentication service
-│   ├── products-service/ # Products management service
-│   ├── cart-service/     # Shopping cart service
-│   └── orders-service/   # Orders and payments service
-├── frontend/             # React frontend application
-├── docker-compose.yml    # Docker orchestration
-├── run-app.sh           # Startup script
-└── README.md            # This file
+
+### Stop All Services
+```bash
+chmod +x stop-all-services.sh
+./stop-all-services.sh
 ```
 
-### Environment Variables
+### View Logs
+```bash
+# Docker logs
+docker-compose logs [service-name]
 
-The application uses the following environment variables:
+# Individual service logs
+tail -f logs/[service-name].log
+```
 
-- `MONGODB_URI`: MongoDB connection string
-- `JWT_SECRET`: Secret key for JWT token signing
-- `RAZORPAY_KEY_ID`: Razorpay API key (for payments)
-- `RAZORPAY_KEY_SECRET`: Razorpay API secret
-
-### Database
-
-Each microservice uses its own MongoDB database:
-- `auth-db`: User authentication data
-- `products-db`: Product catalog
-- `cart-db`: Shopping cart data
-- `orders-db`: Order and payment information
-
-## Troubleshooting
+## 🔧 Troubleshooting
 
 ### Common Issues
 
-1. **Port conflicts**: Make sure ports 3000, 5000-5004 are not in use
-2. **Docker memory**: Ensure Docker has sufficient memory allocated
-3. **MongoDB connection**: Check if the MongoDB URI is accessible
+1. **Port Conflicts**
+   ```bash
+   # Check what's using the ports
+   lsof -i :3000
+   lsof -i :5000-5004
+   
+   # Kill processes if needed
+   kill -9 $(lsof -ti:3000)
+   ```
 
-### Logs
+2. **MongoDB Connection Issues**
+   - Ensure MongoDB is running locally or update connection strings
+   - Check network connectivity for MongoDB Atlas
 
-To view logs for a specific service:
-```bash
-docker-compose logs [service-name]
+3. **Service Not Starting**
+   - Check if all dependencies are installed
+   - Verify environment variables are set
+   - Check service logs for specific errors
+
+### Environment Variables
+
+Each service requires specific environment variables:
+
+```env
+# Auth Service
+MONGODB_URI=mongodb://localhost:27017/auth-db
+JWT_SECRET=your-secret-key
+PORT=5001
+
+# Products Service
+MONGODB_URI=mongodb://localhost:27017/products-db
+PORT=5002
+
+# Cart Service
+MONGODB_URI=mongodb://localhost:27017/cart-db
+PORT=5003
+
+# Orders Service
+MONGODB_URI=mongodb://localhost:27017/orders-db
+PORT=5004
 ```
 
-Example:
+## 🧪 Testing
+
+### Manual Testing
+1. Register a new user account
+2. Browse products and add items to cart
+3. Complete checkout process
+4. View order history
+5. Test admin functionality with admin credentials
+
+### API Testing
+Use tools like Postman or curl to test API endpoints:
+
 ```bash
-docker-compose logs frontend
-docker-compose logs auth-service
+# Test user registration
+curl -X POST http://localhost:5000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password123","name":"Test User"}'
 ```
 
-## Contributing
+## 🚀 Deployment
+
+### Production Deployment
+1. Set up production MongoDB database
+2. Configure environment variables for production
+3. Build and deploy Docker containers
+4. Set up reverse proxy (nginx)
+5. Configure SSL certificates
+
+### Docker Production
+```bash
+# Build for production
+docker-compose -f docker-compose.prod.yml up --build -d
+```
+
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test the changes
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature/new-feature`)
+5. Create a Pull Request
 
-## License
+## 📄 License
 
-This project is for educational purposes. Feel free to use and modify as needed.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 📞 Support
+
+For support and questions:
+- Create an issue in the GitHub repository
+- Contact the development team
+
+## 🔄 Version History
+
+- **v1.0.0** - Initial release with core e-commerce functionality
+- **v1.1.0** - Enhanced UI and admin dashboard
+- **v1.2.0** - Added Docker support and improved architecture
 
 ---
 
-**Note**: This is a demonstration project. For production use, please ensure to:
-- Use secure environment variables
-- Implement proper error handling
-- Add comprehensive testing
-- Set up monitoring and logging
-- Configure proper security headers
-- Use production-ready database configurations
-# E-Commerce-webapp
+**Built with ❤️ using React, Node.js, Express, MongoDB, and Docker**

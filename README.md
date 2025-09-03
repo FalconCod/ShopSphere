@@ -105,22 +105,48 @@ emart/
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- MongoDB (or MongoDB Atlas account)
-- Docker (optional, for containerized deployment)
+- **Node.js** (v16 or higher) - [Download from nodejs.org](https://nodejs.org/)
+- **npm** (comes with Node.js)
+- **MongoDB Atlas Account** (pre-configured for this project)
+- **Docker** (optional, for containerized deployment)
 
-### Option 1: Quick Start Script (Recommended)
+### 🍎 macOS Setup (Recommended)
+
+**One-Command Setup:**
+```bash
+chmod +x start-ecommerce-mac.sh
+./start-ecommerce-mac.sh
+```
+
+This script will:
+- ✅ Check Node.js and npm installation
+- 📦 Install dependencies for all services
+- 🚀 Start all microservices in the background
+- 🌐 Launch the React frontend
+- 📊 Display service URLs
+
+**Important for macOS:** The API Gateway uses port 8000 (instead of 5000) to avoid conflicts with macOS Control Center.
+
+### 🪟 Windows Setup
+
+**PowerShell/Command Prompt:**
+```cmd
+# Make scripts executable and run
+powershell -ExecutionPolicy Bypass -File Start-EcommercePlatform.ps1
+```
+
+**Or using Git Bash:**
 ```bash
 chmod +x start-emart-quick.sh
 ./start-emart-quick.sh
 ```
 
-### Option 2: Docker Compose
+### 🐳 Docker Setup (Cross-Platform)
 ```bash
 docker-compose up --build
 ```
 
-### Option 3: Manual Setup
+### 🔧 Manual Setup (All Platforms)
 
 #### 1. Install Dependencies
 ```bash
@@ -186,8 +212,14 @@ cd frontend && npm start
 After starting the services:
 
 - **Frontend Application**: http://localhost:3000
-- **API Gateway**: http://localhost:5000
+- **API Gateway**: 
+  - macOS: http://localhost:8000 (avoids Control Center conflict)
+  - Windows/Docker: http://localhost:5000
 - **Individual Services**: http://localhost:5001-5004
+  - Auth Service: http://localhost:5001
+  - Products Service: http://localhost:5002
+  - Cart Service: http://localhost:5003
+  - Orders Service: http://localhost:5004
 
 ## 🔑 API Endpoints
 
@@ -251,26 +283,79 @@ tail -f logs/[service-name].log
 
 ## 🔧 Troubleshooting
 
-### Common Issues
+### Platform-Specific Issues
+
+#### 🍎 macOS Issues
+
+1. **Port 5000 Conflict (Control Center)**
+   - macOS Control Center uses port 5000
+   - API Gateway automatically uses port 8000 on macOS
+   - If issues persist: System Preferences → Sharing → Turn off AirPlay Receiver
+
+2. **Permission Denied for Scripts**
+   ```bash
+   chmod +x start-ecommerce-mac.sh
+   chmod +x stop-ecommerce-mac.sh
+   chmod +x test-setup.sh
+   ```
+
+3. **Node.js/npm Issues**
+   ```bash
+   # Update Node.js using Homebrew
+   brew update
+   brew upgrade node
+   ```
+
+#### 🪟 Windows Issues
+
+1. **PowerShell Execution Policy**
+   ```powershell
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+   ```
+
+2. **Git Bash Script Issues**
+   ```bash
+   # Use Git Bash for better compatibility
+   chmod +x start-emart-quick.sh
+   ./start-emart-quick.sh
+   ```
+
+3. **Windows Defender/Antivirus**
+   - Add project folder to Windows Defender exclusions
+   - Temporarily disable real-time protection if needed
+
+### Common Issues (All Platforms)
 
 1. **Port Conflicts**
    ```bash
-   # Check what's using the ports
+   # macOS/Linux
    lsof -i :3000
    lsof -i :5000-5004
-   
-   # Kill processes if needed
    kill -9 $(lsof -ti:3000)
+   
+   # Windows
+   netstat -ano | findstr :3000
+   taskkill /PID <PID> /F
    ```
 
 2. **MongoDB Connection Issues**
-   - Ensure MongoDB is running locally or update connection strings
-   - Check network connectivity for MongoDB Atlas
+   - Verify internet connection for MongoDB Atlas
+   - Check if connection string is correct
+   - Ensure MongoDB Atlas cluster is active
 
 3. **Service Not Starting**
-   - Check if all dependencies are installed
-   - Verify environment variables are set
-   - Check service logs for specific errors
+   - Check if all dependencies are installed: `npm install`
+   - Verify Node.js version: `node --version` (should be v16+)
+   - Clear npm cache: `npm cache clean --force`
+   - Delete node_modules and reinstall: `rm -rf node_modules && npm install`
+
+4. **Frontend Build Issues**
+   ```bash
+   cd frontend
+   rm -rf node_modules package-lock.json
+   npm install
+   npm start
+   ```
 
 ### Environment Variables
 
@@ -297,6 +382,26 @@ PORT=5004
 
 ## 🧪 Testing
 
+### Automated Testing Script
+Run the comprehensive test script to verify everything is working:
+
+**macOS/Linux:**
+```bash
+chmod +x test-setup.sh
+./test-setup.sh
+```
+
+**Windows (PowerShell):**
+```powershell
+.\test-setup.ps1
+```
+
+This will test:
+- ✅ MongoDB connection
+- ✅ All services are running
+- ✅ API Gateway routing
+- ✅ Frontend accessibility
+
 ### Manual Testing
 1. Register a new user account
 2. Browse products and add items to cart
@@ -307,11 +412,19 @@ PORT=5004
 ### API Testing
 Use tools like Postman or curl to test API endpoints:
 
+**macOS/Linux:**
 ```bash
-# Test user registration
-curl -X POST http://localhost:5000/api/auth/register \
+# Test user registration (adjust port for macOS)
+curl -X POST http://localhost:8000/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","password":"password123","name":"Test User"}'
+```
+
+**Windows:**
+```cmd
+curl -X POST http://localhost:5000/api/auth/register ^
+  -H "Content-Type: application/json" ^
+  -d "{\"email\":\"test@example.com\",\"password\":\"password123\",\"name\":\"Test User\"}"
 ```
 
 ## 🚀 Deployment

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useAuth } from './AuthContext';
 
@@ -18,16 +18,7 @@ export const CartProvider = ({ children }) => {
   const { user } = useAuth();
   const CART_URL = 'http://localhost:5003'; // Direct cart service
 
-  // Fetch cart when user changes
-  useEffect(() => {
-    if (user) {
-      fetchCart();
-    } else {
-      setCart(null);
-    }
-  }, [user]);
-
-  const fetchCart = async () => {
+  const fetchCart = useCallback(async () => {
     if (!user) return;
     
     setLoading(true);
@@ -39,7 +30,16 @@ export const CartProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
+
+  // Fetch cart when user changes
+  useEffect(() => {
+    if (user) {
+      fetchCart();
+    } else {
+      setCart(null);
+    }
+  }, [user, fetchCart]);
 
   const addToCart = async (product, quantity = 1) => {
     if (!user) return { success: false, error: 'Please login to add items to cart' };

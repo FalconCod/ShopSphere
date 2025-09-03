@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -15,11 +15,7 @@ const OrdersPage = () => {
   const successMessage = location.state?.message;
   const orderId = location.state?.orderId;
 
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     try {
       const response = await axios.get(`${ORDERS_URL}/api/orders/${user.id}`);
       setOrders(response.data);
@@ -28,7 +24,11 @@ const OrdersPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [fetchOrders]);
 
   const getStatusColor = (status) => {
     switch (status) {

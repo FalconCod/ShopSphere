@@ -2,7 +2,7 @@
 
 A modern, full-stack e-commerce platform built with microservices architecture using React, Node.js, Express, MongoDB, and Docker. This platform provides a complete online shopping experience with admin management capabilities.
 
-## 🚀 Features
+##  Features
 
 ### Customer Features
 - **User Authentication**: Secure registration and login with JWT tokens
@@ -26,7 +26,7 @@ A modern, full-stack e-commerce platform built with microservices architecture u
 - **MongoDB Integration**: NoSQL database for flexible data storage
 - **Real-time Updates**: Live cart and order status updates
 
-## 🏗️ Architecture
+##  Architecture
 
 ```
 Frontend (React) → API Gateway → Microservices → MongoDB
@@ -45,7 +45,7 @@ Port 3000        Port 5000     Ports 5001-5004
 | Cart Service     | 5003 | Shopping cart operations       | cart-db     |
 | Orders Service   | 5004 | Order processing & management  | orders-db   |
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 emart/
@@ -102,7 +102,7 @@ emart/
 └── README.md               # This file
 ```
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 - **Node.js** (v16 or higher) - [Download from nodejs.org](https://nodejs.org/)
@@ -110,7 +110,7 @@ emart/
 - **MongoDB Atlas Account** (pre-configured for this project)
 - **Docker** (optional, for containerized deployment)
 
-### 🍎 macOS Setup (Recommended)
+###  macOS Setup (Recommended)
 
 **One-Command Setup:**
 ```bash
@@ -119,15 +119,15 @@ chmod +x start-ecommerce-mac.sh
 ```
 
 This script will:
-- ✅ Check Node.js and npm installation
-- 📦 Install dependencies for all services
-- 🚀 Start all microservices in the background
-- 🌐 Launch the React frontend
-- 📊 Display service URLs
+-  Check Node.js and npm installation
+-  Install dependencies for all services
+-  Start all microservices in the background
+-  Launch the React frontend
+-  Display service URLs
 
 **Important for macOS:** The API Gateway uses port 8000 (instead of 5000) to avoid conflicts with macOS Control Center.
 
-### 🪟 Windows Setup
+###  Windows Setup
 
 **PowerShell/Command Prompt:**
 ```cmd
@@ -146,7 +146,7 @@ chmod +x start-emart-quick.sh
 docker-compose up --build
 ```
 
-### 🔧 Manual Setup (All Platforms)
+###  Manual Setup (All Platforms)
 
 #### 1. Install Dependencies
 ```bash
@@ -207,7 +207,7 @@ cd services/orders-service && npm start
 cd frontend && npm start
 ```
 
-## 🌐 Access Points
+##  Access Points
 
 After starting the services:
 
@@ -221,7 +221,7 @@ After starting the services:
   - Cart Service: http://localhost:5003
   - Orders Service: http://localhost:5004
 
-## 🔑 API Endpoints
+##  API Endpoints
 
 ### Authentication (`/api/auth`)
 - `POST /api/auth/register` - Register new user
@@ -258,7 +258,7 @@ After starting the services:
 
 *Note: These accounts are created automatically when you first register with these credentials.*
 
-## 🛠️ Development Commands
+##  Development Commands
 
 ### Check Service Status
 ```bash
@@ -285,7 +285,7 @@ tail -f logs/[service-name].log
 
 ### Platform-Specific Issues
 
-#### 🍎 macOS Issues
+####  macOS Issues
 
 1. **Port 5000 Conflict (Control Center)**
    - macOS Control Center uses port 5000
@@ -306,7 +306,7 @@ tail -f logs/[service-name].log
    brew upgrade node
    ```
 
-#### 🪟 Windows Issues
+####  Windows Issues
 
 1. **PowerShell Execution Policy**
    ```powershell
@@ -397,10 +397,10 @@ chmod +x test-setup.sh
 ```
 
 This will test:
-- ✅ MongoDB connection
-- ✅ All services are running
-- ✅ API Gateway routing
-- ✅ Frontend accessibility
+-  MongoDB connection
+-  All services are running
+-  API Gateway routing
+-  Frontend accessibility
 
 ### Manual Testing
 1. Register a new user account
@@ -427,7 +427,7 @@ curl -X POST http://localhost:5000/api/auth/register ^
   -d "{\"email\":\"test@example.com\",\"password\":\"password123\",\"name\":\"Test User\"}"
 ```
 
-## 🚀 Deployment
+##  Deployment
 
 ### Production Deployment
 1. Set up production MongoDB database
@@ -442,7 +442,7 @@ curl -X POST http://localhost:5000/api/auth/register ^
 docker-compose -f docker-compose.prod.yml up --build -d
 ```
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/new-feature`)
@@ -450,17 +450,17 @@ docker-compose -f docker-compose.prod.yml up --build -d
 4. Push to the branch (`git push origin feature/new-feature`)
 5. Create a Pull Request
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 📞 Support
+##  Support
 
 For support and questions:
 - Create an issue in the GitHub repository
 - Contact the development team
 
-## 🔄 Version History
+##  Version History
 
 - **v1.0.0** - Initial release with core e-commerce functionality
 - **v1.1.0** - Enhanced UI and admin dashboard
@@ -468,4 +468,4 @@ For support and questions:
 
 ---
 
-**Built with ❤️ using React, Node.js, Express, MongoDB, and Docker**
+**Built with  using React, Node.js, Express, MongoDB, and Docker**
